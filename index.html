@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Green Impulse</title>
+<style>
+  :root {
+    --green: #39765b;
+    --ink: #254537;
+    --cream: #fbfaf4;
+    --muted: #6e8678;
+    --card-line: #e4ebe2;
+    --field-line: #cddbd0;
+    --field-bg: #fcfdfa;
+    --track: #e7eee7;
+    --hero-bg: #e8f2e7;
+    --teal: #437f76;
+    --font: ui-rounded, "Trebuchet MS", Arial, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--cream); color: var(--ink); font-family: var(--font); padding: 0 16px; }
+  .page { max-width: 1100px; margin: 0 auto; }
+  html { scroll-behavior: smooth; }
+  header { position: sticky; top: 0; z-index: 20; background: var(--cream); padding: 14px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  nav { display: flex; gap: 6px; }
+  nav a { color: var(--ink); text-decoration: none; font-weight: 800; font-size: 15px; padding: 9px 16px; border-radius: 999px; }
+  nav a:hover { background: #e8f0e7; }
+  nav a.active { background: var(--green); color: #fff; }
+  nav a:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+  #progress, #ranks, #participate { scroll-margin-top: 90px; }
+  @media (max-width: 750px) { nav { order: 3; width: 100%; justify-content: space-between; } nav a { flex: 1; text-align: center; padding: 9px 8px; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  .logo { font-size: 23px; font-weight: 900; letter-spacing: -1px; }
+  .logo span { color: #71a680; }
+  .small { color: var(--muted); font-size: 13px; }
+  button { border: 0; background: var(--green); color: #fff; padding: 12px 18px; border-radius: 15px; cursor: pointer; font: inherit; font-weight: 700; }
+  button.secondary { background: #e8f0e7; color: var(--green); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+  main { padding-bottom: 70px; }
+
+  .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px; align-items: center; background: var(--hero-bg); border-radius: 34px; padding: 36px 42px; min-height: 340px; }
+  .hero > * { min-width: 0; }
+  h1 { font-size: clamp(34px, 5vw, 60px); letter-spacing: -2px; margin: 12px 0; line-height: 1.02; }
+  h2 { font-size: 23px; letter-spacing: -.5px; margin: 0 0 12px; }
+  .eyebrow { font-weight: 800; letter-spacing: 2px; font-size: 12px; color: #668e73; }
+  .hero p { font-size: 17px; line-height: 1.6; max-width: 450px; }
+  .pill { display: inline-block; padding: 7px 12px; background: #d7e9d9; border-radius: 20px; font-size: 12px; font-weight: 800; }
+
+  .bottle-scene { position: relative; display: grid; place-items: center; min-height: 280px; }
+  .spark { position: absolute; font-size: 30px; animation: bob 3s ease-in-out infinite; }
+  .s1 { top: 22px; left: 12%; }
+  .s2 { top: 60px; right: 8%; animation-delay: .8s; }
+  .s3 { bottom: 25px; right: 14%; animation-delay: 1.3s; }
+  @keyframes bob { 50% { transform: translateY(-12px) rotate(9deg); } }
+  .bottle { width: 120px; height: 222px; border: 7px solid var(--teal); border-radius: 28px 28px 33px 33px; position: relative; overflow: hidden; background: #ffffffb8; transform: rotate(-7deg); box-shadow: 12px 14px 0 #b9d8bf; }
+  .bottle:before { content: ""; position: absolute; top: -12px; left: 29px; width: 48px; height: 16px; background: var(--teal); border-radius: 8px; z-index: 2; }
+  .water { position: absolute; bottom: 0; left: 0; width: 100%; height: 0; background: linear-gradient(#a4dbe1, #65b8c5); transition: height 1.6s cubic-bezier(.2, .8, .2, 1); }
+  .water:before { content: ""; position: absolute; top: -9px; left: -10%; width: 120%; height: 20px; border-radius: 50%; background: #a4dbe1; animation: sway 3s ease-in-out infinite; }
+  @keyframes sway { 50% { transform: translateX(8px) scaleY(1.25); } }
+  .bubble { position: absolute; bottom: 8px; width: 9px; height: 9px; border-radius: 50%; background: #ffffffaa; animation: rise 3.4s ease-in infinite; }
+  .b1 { left: 24%; } .b2 { left: 56%; animation-delay: -1.2s; } .b3 { left: 74%; animation-delay: -2.3s; width: 6px; height: 6px; }
+  @keyframes rise { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-120px); opacity: 0; } }
+  .face { position: absolute; top: 95px; left: 0; width: 100%; font-size: 28px; text-align: center; color: #315c54; z-index: 1; }
+
+  .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 22px; }
+  .layout > * { min-width: 0; }
+  .card { background: #fff; border: 1px solid var(--card-line); border-radius: 26px; padding: 26px; box-shadow: 0 5px 18px #305d4510; }
+  .wide { grid-column: 1 / -1; }
+  .count { font-size: 48px; font-weight: 900; letter-spacing: -2px; font-variant-numeric: tabular-nums; }
+  .track { height: 16px; border-radius: 20px; background: var(--track); overflow: hidden; margin: 14px 0; }
+  .fill { height: 100%; width: 0; background: linear-gradient(90deg, #92c8a0, #3b8662); border-radius: 20px; transition: width 1.2s; }
+  .stats { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .muted { color: #73867a; }
+  .class-row { margin: 17px 0; }
+  .class-head { display: flex; justify-content: space-between; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .class-row .track { height: 11px; margin: 7px 0; }
+  .leader { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid #edf0e9; min-width: 0; }
+  .leader:last-child { border: 0; }
+  .rank { font-size: 22px; width: 38px; flex: none; }
+  .leader .name { font-weight: 800; flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .leader .score { font-weight: 900; font-variant-numeric: tabular-nums; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-grid > * { min-width: 0; }
+  label { font-size: 13px; font-weight: 800; display: block; margin: 12px 0 6px; }
+  input, select { width: 100%; padding: 12px 13px; border: 1px solid var(--field-line); border-radius: 12px; background: var(--field-bg); font: inherit; color: var(--ink); }
+  .notice { padding: 12px; border-radius: 12px; background: #eff6ed; font-size: 14px; margin: 14px 0; }
+  .error { background: #ffe9e7; color: #923d3b; }
+  .admin-panel { margin-top: 20px; border: 2px dashed #b5d2bd; border-radius: 25px; padding: 22px; background: #f6faf3; }
+  .admin-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px; border-bottom: 1px solid #dfe9de; flex-wrap: wrap; }
+  .actions { display: flex; gap: 8px; }
+  .actions button { padding: 9px 12px; }
+  .hide { display: none !important; }
+  footer { text-align: center; color: #6f8374; padding: 24px; }
+
+  @media (max-width: 750px) {
+    .hero, .layout, .form-grid { grid-template-columns: 1fr; }
+    .hero { padding: 28px; }
+    .bottle-scene { min-height: 250px; }
+    .card { padding: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spark, .water:before, .bubble { animation: none; }
+    .water, .fill { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+<header>
+  <div class="logo">🌿 Green <span>Impulse</span></div>
+  <nav aria-label="Sections">
+    <a href="#progress">Progress</a>
+    <a href="#ranks">Ranks</a>
+    <a href="#participate">Participate</a>
+  </nav>
+  <button class="secondary" id="adminToggle" type="button">🔒 Organiser login</button>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <h1>Collect bottles.<br>Compete.</h1>
+      <p>Bring your plastic bottles to school, we collect them, recycle them, and track your progress.</p>
+      <span class="pill">12SA · 12SB · 12SC · 12LA</span>
+    </div>
+    <div class="bottle-scene" role="img" aria-label="Animated bottle that fills as progress increases">
+      <span class="spark s1">✦</span><span class="spark s2">🍃</span><span class="spark s3">✧</span>
+      <div class="bottle">
+        <div class="water" id="water"><span class="bubble b1"></span><span class="bubble b2"></span><span class="bubble b3"></span></div>
+        <div class="face" id="face">•ᴗ•</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="layout">
+    <article class="card" id="progress">
+      <div class="eyebrow">SCHOOL PROGRESS</div>
+      <h2>Total bottles collected</h2>
+      <div class="count"><span id="total">0</span><span class="muted" style="font-size:23px"> / 500</span></div>
+      <div class="track"><div class="fill" id="schoolFill"></div></div>
+      <div class="stats"><span class="small" id="percent">0% of our goal</span><span class="small">🎯 500 bottles</span></div>
+    </article>
+
+    <article class="card">
+      <div class="eyebrow">OUR COLLABORATION</div>
+      <h2>DGRADE Quest</h2>
+      <p>Plastic bottles turn into fabric!</p>
+      <div class="notice">Our mission is to collect 500 bottles. With our collaboration with DGRADE, every plastic bottle is turned into fabric, promoting the UAE 2031 sustainability mission.</div>
+    </article>
+
+    <article class="card wide" id="ranks">
+      <div class="eyebrow">GRADE 12</div>
+      <h2>Class competition</h2>
+      <div id="classes"></div>
+    </article>
+
+    <article class="card wide" id="participate">
+      <div class="eyebrow">TAKE PART</div>
+      <h2>Submit your bottles</h2>
+      <p class="small">Submissions do not count until an organiser verifies and approves them.</p>
+      <form id="submission">
+        <div class="form-grid">
+          <div><label for="nickname">Enter Full Name</label><input id="nickname" maxlength="30" placeholder="e.g. Panda" required></div>
+          <div><label for="cls">Class</label><select id="cls"><option>12SA</option><option>12SB</option><option>12SC</option><option>12LA</option></select></div>
+          <div><label for="bottles">Number of bottles</label><input id="bottles" type="number" inputmode="numeric" min="1" max="500" step="1" placeholder="e.g. 12" required></div>
+          <div style="display:flex;align-items:flex-end"><button style="width:100%" type="submit" id="send">Send for approval ↗</button></div>
+        </div>
+      </form>
+      <div id="formMessage" class="notice hide" role="status"></div>
+    </article>
+  </section>
+
+  <section class="admin-panel hide" id="adminPanel">
+    <div class="eyebrow">PRIVATE ORGANISER AREA</div>
+    <h2>Approve bottle submissions</h2>
+    <div id="loginSection">
+      <p class="small">Only the organiser account can review or approve submissions.</p>
+      <form id="loginForm">
+        <div class="form-grid">
+          <div><label for="email">Email</label><input id="email" type="email" autocomplete="username" required></div>
+          <div><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required></div>
+        </div>
+        <p><button type="submit">Sign in</button></p>
+      </form>
+    </div>
+    <div id="adminContent" class="hide">
+      <p><button class="secondary" id="signOut" type="button">Sign out</button></p>
+      <div id="pending"></div>
+    </div>
+    <div id="adminMessage" class="small"></div>
+  </section>
+</main>
+
+<footer>Student-led Sustainable Initiative · Green Impulse</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+// ---- Setup: paste your two Supabase values here (see README.md, step 4). ----
+var SUPABASE_URL = "https://ywbprpktzjtrqsqtzina.supabase.co";
+var SUPABASE_ANON_KEY = "sb_publishable_wEV3LTZwR-Xa38nR_7jGVA_Hl4MuvJk";
+// ------------------------------------------------------------------------------
+
+var GOAL = 500;
+var CLASSES = ["12SA", "12SB", "12SC", "12LA"];
+var ONLINE = SUPABASE_URL.indexOf("https://") === 0 && SUPABASE_ANON_KEY.indexOf("YOUR_") !== 0;
+var sb = null, admin = false;
+
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+function msg(id, text, err) { var el = $(id); el.textContent = text; el.classList.remove("hide"); el.classList.toggle("error", !!err); }
+
+// Demo mode (used only until Supabase is set up): data stays in this browser.
+var demoKey = "green-impulse-demo-v1", demo = [];
+try { demo = JSON.parse(localStorage.getItem(demoKey) || "[]"); } catch (e) { demo = []; }
+function persist() { try { localStorage.setItem(demoKey, JSON.stringify(demo)); } catch (e) {} }
+
+function group(rows) {
+  var byClass = {}, people = {}, total = 0;
+  CLASSES.forEach(function (c) { byClass[c] = 0; });
+  rows.forEach(function (r) {
+    byClass[r.class_code] = (byClass[r.class_code] || 0) + r.bottles; total += r.bottles;
+    var k = r.class_code + "|" + r.nickname.toLowerCase();
+    var p = people[k] || (people[k] = { nickname: r.nickname, class_code: r.class_code, bottles: 0 });
+    p.bottles += r.bottles;
+  });
+  var list = Object.keys(people).map(function (k) { return people[k]; }).sort(function (a, b) { return b.bottles - a.bottles; });
+  return { byClass: byClass, people: list, total: total };
+}
+
+function render(rows) {
+  var g = group(rows), pct = Math.min(100, g.total / GOAL * 100);
+  $("total").textContent = g.total;
+  $("percent").textContent = Math.round(pct) + "% of our goal";
+  $("schoolFill").style.width = pct + "%";
+  $("water").style.height = pct + "%";
+  $("face").textContent = pct >= 100 ? "^ᴗ^" : pct >= 40 ? "•ᴗ•" : pct > 0 ? "•_•" : "•︵•";
+  var max = Math.max(1, Math.max.apply(null, CLASSES.map(function (c) { return g.byClass[c]; })));
+  $("classes").innerHTML = CLASSES.slice().sort(function (a, b) { return g.byClass[b] - g.byClass[a]; }).map(function (c) {
+    return '<div class="class-row"><div class="class-head"><span>' + c + '</span><span>' + g.byClass[c] + ' bottles</span></div><div class="track"><div class="fill" style="width:' + (g.byClass[c] / max * 100) + '%"></div></div></div>';
+  }).join("");
+}
+
+async function refresh() {
+  if (!ONLINE) { render(demo.filter(function (r) { return r.status === "approved"; })); return; }
+  var res = await sb.from("contributions").select("nickname,class_code,bottles").eq("status", "approved").order("created_at", { ascending: false }).limit(1000);
+  if (res.error) { msg("formMessage", "Unable to load totals: " + res.error.message, true); return; }
+  render(res.data || []);
+}
+
+$("submission").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  var nickname = $("nickname").value.trim(), class_code = $("cls").value, bottles = Number($("bottles").value);
+  if (!/^[\p{L}\p{N} _.-]{2,30}$/u.test(nickname) || CLASSES.indexOf(class_code) < 0 || !Number.isInteger(bottles) || bottles < 1 || bottles > GOAL) {
+    msg("formMessage", "Please use a 2–30 character nickname and enter 1–500 bottles.", true); return;
+  }
+  var btn = $("send"); btn.disabled = true;
+  try {
+    if (ONLINE) {
+      var res = await sb.from("contributions").insert({ nickname: nickname, class_code: class_code, bottles: bottles });
+      if (res.error) throw res.error;
+    } else {
+      demo.push({ id: "demo-" + Date.now() + "-" + Math.random().toString(36).slice(2), nickname: nickname, class_code: class_code, bottles: bottles, status: "pending", created_at: new Date().toISOString() });
+      persist();
+    }
+    e.target.reset();
+    msg("formMessage", "Submitted! Your bottles will count after organiser approval.", false);
+  } catch (err) {
+    msg("formMessage", "Could not submit: " + err.message, true);
+  } finally { btn.disabled = false; }
+});
+
+$("adminToggle").addEventListener("click", function () {
+  if (!ONLINE) { admin = true; showAdmin(); }
+  var p = $("adminPanel"); p.classList.toggle("hide");
+  if (!p.classList.contains("hide")) p.scrollIntoView({ behavior: "smooth" });
+});
+
+async function checkAdmin() {
+  if (!ONLINE) { admin = true; showAdmin(); return; }
+  var u = await sb.auth.getUser();
+  var user = u.data && u.data.user;
+  if (!user) { admin = false; showAdmin(); return; }
+  var r = await sb.from("admins").select("user_id").eq("user_id", user.id).maybeSingle();
+  admin = !!r.data && !r.error;
+  showAdmin();
+  if (!admin) msg("adminMessage", "This account is not authorised to approve submissions.", true);
+}
+function showAdmin() {
+  $("loginSection").classList.toggle("hide", admin);
+  $("adminContent").classList.toggle("hide", !admin);
+  if (admin) loadPending();
+}
+
+$("loginForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  if (!ONLINE) { msg("adminMessage", "Demo mode: no secure login exists until Supabase is set up.", true); return; }
+  var r = await sb.auth.signInWithPassword({ email: $("email").value, password: $("password").value });
+  if (r.error) { msg("adminMessage", r.error.message, true); return; }
+  $("password").value = "";
+  await checkAdmin();
+});
+$("signOut").addEventListener("click", async function () {
+  if (ONLINE) await sb.auth.signOut();
+  admin = false; showAdmin(); $("adminMessage").textContent = "";
+});
+
+async function loadPending() {
+  if (!admin) return;
+  var rows;
+  if (ONLINE) {
+    var r = await sb.from("contributions").select("id,nickname,class_code,bottles,created_at,status").eq("status", "pending").order("created_at", { ascending: true }).limit(200);
+    if (r.error) { msg("adminMessage", r.error.message, true); return; }
+    rows = r.data || [];
+  } else {
+    rows = demo.filter(function (x) { return x.status === "pending"; });
+  }
+  $("pending").innerHTML = rows.length ? rows.map(function (r) {
+    return '<div class="admin-row"><div><strong>' + esc(r.nickname) + '</strong> · ' + esc(r.class_code) + ' · <strong>' + r.bottles + ' bottles</strong><div class="small">Pending verification</div></div>' +
+      '<div class="actions"><button type="button" data-id="' + esc(r.id) + '" data-status="approved">Approve</button><button type="button" class="secondary" data-id="' + esc(r.id) + '" data-status="rejected">Reject</button></div></div>';
+  }).join("") : '<p class="small">No pending submissions.</p>';
+}
+
+$("pending").addEventListener("click", async function (e) {
+  var btn = e.target.closest("button[data-id]");
+  if (!btn || !admin) return;
+  var id = btn.getAttribute("data-id"), status = btn.getAttribute("data-status");
+  btn.disabled = true;
+  try {
+    if (ONLINE) {
+      var r = await sb.from("contributions").update({ status: status }).eq("id", id);
+      if (r.error) throw r.error;
+    } else {
+      var row = demo.find(function (x) { return x.id === id; });
+      if (row) row.status = status;
+      persist();
+    }
+    await loadPending(); await refresh();
+  } catch (err) { msg("adminMessage", err.message, true); btn.disabled = false; }
+});
+
+async function init() {
+  if (ONLINE) {
+    try {
+      if (!window.supabase) throw new Error("Supabase library unavailable");
+      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      await refresh();
+      await checkAdmin();
+      setInterval(async function () { await refresh(); if (admin) await loadPending(); }, 15000);
+    } catch (err) { msg("formMessage", "Online connection failed: " + err.message, true); }
+  } else {
+    render(demo.filter(function (r) { return r.status === "approved"; }));
+    $("adminToggle").textContent = "🧪 Demo organiser";
+    msg("formMessage", "Demo mode: submissions are stored only in this browser. Finish the setup in README.md before sharing with students.", false);
+  }
+}
+// Highlight the tab for the section currently on screen.
+(function () {
+  var links = document.querySelectorAll("nav a");
+  if (!("IntersectionObserver" in window) || !links.length) return;
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      links.forEach(function (a) { a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id); });
+    });
+  }, { rootMargin: "-30% 0px -55% 0px" });
+  ["progress", "ranks", "participate"].forEach(function (id) { var el = document.getElementById(id); if (el) obs.observe(el); });
+})();
+
+init();
+</script>
+</body>
+</html>
