@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Green Impulse</title>
+<title>Green Pulse</title>
 <style>
   :root {
     --green: #39765b;
@@ -111,7 +111,7 @@
 <body>
 <div class="page">
 <header>
-  <div class="logo">🌿 Green <span>Impulse</span></div>
+  <div class="logo">🌿 Green <span>Pulse</span></div>
   <nav aria-label="Sections">
     <a href="#progress">Progress</a>
     <a href="#ranks">Ranks</a>
@@ -142,7 +142,7 @@
       <h2>Total bottles collected</h2>
       <div class="count"><span id="total">0</span><span class="muted" style="font-size:23px"> / 500</span></div>
       <div class="track"><div class="fill" id="schoolFill"></div></div>
-      <div class="stats"><span class="small" id="percent">0% of our goal</span><span class="small">🎯 500 bottles</span></div>
+      <div class="stats"><span class="small" id="percent">0% of our goal</span><span class="small"> 500 bottles</span></div>
     </article>
 
     <article class="card">
@@ -193,7 +193,7 @@
   </section>
 </main>
 
-<footer>Student-led Sustainable Initiative · Green Impulse</footer>
+<footer>Student-led Sustainable Initiative · Green Pulse</footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -213,7 +213,7 @@ function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "
 function msg(id, text, err) { var el = $(id); el.textContent = text; el.classList.remove("hide"); el.classList.toggle("error", !!err); }
 
 // Demo mode (used only until Supabase is set up): data stays in this browser.
-var demoKey = "green-impulse-demo-v1", demo = [];
+var demoKey = "green-Pulse-demo-v1", demo = [];
 try { demo = JSON.parse(localStorage.getItem(demoKey) || "[]"); } catch (e) { demo = []; }
 function persist() { try { localStorage.setItem(demoKey, JSON.stringify(demo)); } catch (e) {} }
 
